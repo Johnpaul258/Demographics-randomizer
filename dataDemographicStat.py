@@ -2,12 +2,12 @@
 """
 Created on Wed Jan 24 13:29:36 2024
 
-@author: JHON
+@author: JOHN
 """
 
 import pandas as pd
 import numpy as np
-from json import loads, dumps
+from json import loads
 import json
 import os
 
@@ -31,12 +31,18 @@ def generate_data(year):
         } for i in range(year)
     ]
 
-demographics_path = r'C:/Users/JHON/Documents/Canada/Fleming college/Semester 4/Applied Project 2/Worklogs/dataDemographics.xlsx'
-new_path = r"C:/Users/JHON/Documents/Canada/Fleming college/Semester 4/Applied Project 2/Worklogs"
+
+script_directory = os.path.dirname(os.path.abspath(__file__))
+file_name = r"dataDemographics.xlsx"
+demographics_path = os.path.join(script_directory, file_name)
+
+new_path = os.path.dirname(os.path.abspath(__file__))
+
+np.random.seed(35)
 
 df_dat_dem_stat = pd.read_excel(demographics_path, sheet_name='Sheet1', header=0)
 
-df_dat_dem_stat = df_dat_dem_stat[['Code', '_id']]
+df_dat_dem_stat = df_dat_dem_stat[['code', '_id','createdAt','updatedAt']]
 df_dat_dem_stat = df_dat_dem_stat.rename(columns={"_id": "yearid"})
 
 df_dat_dem_stat ['_id'] = '' #creates a new empty column
