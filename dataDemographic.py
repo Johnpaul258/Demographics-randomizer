@@ -11,6 +11,7 @@ from json import loads
 import json
 import os
 import time
+from datetime import datetime, timedelta, timezone
 
 
 def fill_dscrp(row):
@@ -27,16 +28,16 @@ def fill_dscrp(row):
 
 def strt_uptAt(start, end, time_format, prop):
 
-    start_t = time.mktime(time.strptime(start, time_format))
-    end_t = time.mktime(time.strptime(end, time_format))
+    start_t = datetime.strptime(start, time_format)
+    end_t = datetime.strptime(end, time_format)
 
     ptime = start_t + prop * (end_t - start_t)
 
-    return time.strftime(time_format, time.localtime(ptime))
+    return ptime.strftime(time_format)
 
 
 def rand_date(start, end, prop):
-    return strt_uptAt(start, end, '%m/%d/%Y %I:%M %p', prop)
+    return strt_uptAt(start, end, '%Y-%m-%dT%H:%M:%S.%f%z', prop)
 
 
 
@@ -78,23 +79,23 @@ for i in range(len(df_demographics['description'])):
         
 
 for i in range(len(df_demographics['createdAt'])):
-    strt_dt=rand_date("1/1/2018 8:30 AM", "12/31/2022 4:50 PM", np.random.rand())
+    strt_dt=rand_date("2018-01-01T08:30:00.000+00:00", "2022-12-31T16:50:00.000+00:00", np.random.rand())
     df_demographics['createdAt'][i]=strt_dt
-    fnsh_dt = rand_date(strt_dt, "12/31/2022 4:50 PM", np.random.rand())
+    fnsh_dt = rand_date(strt_dt, "2022-12-31T16:50:00.000+00:00", np.random.rand())
     df_demographics['updatedAt'][i]=fnsh_dt
 
 df_demographics ['_id'] = ''
 
-df_demographics ['_id'][0] = '63701d24f03239c72c00018e'
-df_demographics ['_id'][1] = '63701d24f03239c72c00018f'
-df_demographics ['_id'][2] = '63701d24f03239c72c000190'
-df_demographics ['_id'][3] = '63701d24f03239c72c000191'
-df_demographics ['_id'][4] = '63701d24f03239867500012a'
-df_demographics ['_id'][5] = '63701d24f03239867500012b'
+df_demographics ['_id'][0] = 'ObjectId:("63701d24f03239c72c00018e")'
+df_demographics ['_id'][1] = 'ObjectId:("63701d24f03239c72c00018f")'
+df_demographics ['_id'][2] = 'ObjectId:("63701d24f03239c72c000190")'
+df_demographics ['_id'][3] = 'ObjectId:("63701d24f03239c72c000191")'
+df_demographics ['_id'][4] = 'ObjectId:("63701d24f03239867500012a")'
+df_demographics ['_id'][5] = 'ObjectId:("63701d24f03239867500012b")'
 
 for i in range(6, 300):
     random_id = ''.join(np.random.choice(list('0123456789abcdef'), len(df_demographics['_id'][0])))
-    df_demographics['_id'][i] = random_id
+    df_demographics['_id'][i] = f'ObjectId:("{random_id}")'
 
 #df_to_dct = df_demographics.to_dict('records')
 
