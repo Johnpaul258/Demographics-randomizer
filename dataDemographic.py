@@ -61,6 +61,7 @@ df_demographics ['createdAt'] = '' #creates a new empty column
 df_demographics ['updatedAt'] = '' #creates a new empty column
 
 df_demographics = df_demographics.apply(fill_dscrp, axis=1)
+df_demographics['code'] = df_demographics['code'].astype(str)
 
 illness_dscrp = {1:'No known illness',2:'Hypertension',3:'Diabetes',4:'Arthiritis',5:'Cardio bypass'}
 
@@ -76,6 +77,11 @@ for i in range(len(df_demographics['description'])):
     else:
         gender_slct = 'Male'
     df_demographics['gender'][i] = gender_slct
+    if df_demographics['smoking'][i] == 1:
+        smoking_slct = 'Yes'
+    else:
+        smoking_slct = 'No'
+    df_demographics['smoking'][i] = smoking_slct
         
 
 for i in range(len(df_demographics['createdAt'])):
@@ -86,16 +92,16 @@ for i in range(len(df_demographics['createdAt'])):
 
 df_demographics ['_id'] = ''
 
-df_demographics ['_id'][0] = 'ObjectId:("63701d24f03239c72c00018e")'
-df_demographics ['_id'][1] = 'ObjectId:("63701d24f03239c72c00018f")'
-df_demographics ['_id'][2] = 'ObjectId:("63701d24f03239c72c000190")'
-df_demographics ['_id'][3] = 'ObjectId:("63701d24f03239c72c000191")'
-df_demographics ['_id'][4] = 'ObjectId:("63701d24f03239867500012a")'
-df_demographics ['_id'][5] = 'ObjectId:("63701d24f03239867500012b")'
+df_demographics ['_id'][0] = "ObjectId:('63701d24f03239c72c00018e')"
+df_demographics ['_id'][1] = "ObjectId:('63701d24f03239c72c00018f')"
+df_demographics ['_id'][2] = "ObjectId:('63701d24f03239c72c000190')"
+df_demographics ['_id'][3] = "ObjectId:('63701d24f03239c72c000191')"
+df_demographics ['_id'][4] = "ObjectId:('63701d24f03239867500012a')"
+df_demographics ['_id'][5] = "ObjectId:('63701d24f03239867500012b')"
 
 for i in range(6, 300):
     random_id = ''.join(np.random.choice(list('0123456789abcdef'), len(df_demographics['_id'][0])))
-    df_demographics['_id'][i] = f'ObjectId:("{random_id}")'
+    df_demographics['_id'][i] = f"ObjectId:('{random_id}')"
 
 #df_to_dct = df_demographics.to_dict('records')
 
